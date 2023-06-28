@@ -60,12 +60,14 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!currentRegion) {
-                return; // Do not fetch if currentRegion is not set
-            }
+            // if (!currentRegion) {
+            //     return; // Do not fetch if currentRegion is not set
+            // }
 
             const response = await fetch('/api/years');
             const data = await response.json();
+
+            console.log(data);
 
             const filteredData = data[0].data.map((item: RegionData) => item.region);
             setRegions(filteredData);
@@ -74,7 +76,7 @@ const ProfilePage = () => {
                 return {
                     id: Math.random().toString(),
                     region: region,
-                    data: data.sort((a:any, b:any) => a.year - b.year).map((item: any) => {
+                    data: data.sort((a: any, b: any) => Number(a.year) - Number(b.year)).map((item: any) => {
                         return {
                             year: item.year,
                             amount: item.data.find((item: any) => item.region === region)?.amount || 0,

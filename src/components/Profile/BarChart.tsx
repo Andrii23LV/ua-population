@@ -97,12 +97,24 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     };
 
     const handleSortDescending = () => {
-        const sorted = [...sortedData].sort((a, b) => b.amount - a.amount);
+        const sorted = [...sortedData].sort((a, b) => {
+            if (b.amount !== a.amount) {
+                return b.amount - a.amount;
+            } else {
+                return Number(b.year) - Number(a.year);
+            }
+        });
         setSortedData(sorted);
     };
 
     const handleSortAscending = () => {
-        const sorted = [...sortedData].sort((a, b) => a.amount - b.amount);
+        const sorted = [...sortedData].sort((a, b) => {
+            if (a.amount !== b.amount) {
+                return a.amount - b.amount;
+            } else {
+                return Number(a.year) - Number(b.year);
+            }
+        });
         setSortedData(sorted);
     };
 
@@ -116,7 +128,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
 
     return (
         <div className='mt-5'>
-            <svg ref={svgRef} width={400} height={270} className="m-auto"/>
+            <svg ref={svgRef} width={400} height={270} className="m-auto" />
             <div className="flex justify-center gap-2">
                 <button onClick={handleSortDescending} className="blue_btn_l">
                     Descending
